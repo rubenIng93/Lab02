@@ -17,6 +17,8 @@ import javafx.scene.control.TextField;
 
 public class AlienController {
 	
+	AlienDictionary dizionario = new AlienDictionary();
+	
     @FXML
     private ResourceBundle resources;
     @FXML
@@ -43,12 +45,35 @@ public class AlienController {
     
     @FXML
     void doTranslate(ActionEvent event) {
+    	
+    	txtResult.clear();
+    	String text = txtWord.getText().trim().toLowerCase();
+    	
+    	String wordArray[] = text.split(" ");
+    	if(!wordArray[0].matches("[a-zA-Z]*")) {
+    		txtResult.setText("Inserire solo caratteri alfabetici");
+    	}
+    	if(wordArray.length == 2) {    		
+    		dizionario.addWord(wordArray[0], wordArray[1]);
+    		txtResult.appendText("Traduzione inserita correttamente\n");
+    		txtWord.clear();
+    	}if(wordArray.length == 1) { 
+    		if(dizionario.dictionary.size() != 0 && dizionario.translateWord(wordArray[0]) != null)
+    			txtResult.appendText(dizionario.translateWord(wordArray[0]));
+    		else
+    			txtResult.appendText("Parola non presente nel dizionario");
+    		txtWord.clear();
+    	}
+    	
     	    	
     }
     
     
     @FXML
     void doReset(ActionEvent event) {
+    	
+    	txtResult.clear();
+    	txtWord.clear();
 
     }
     
